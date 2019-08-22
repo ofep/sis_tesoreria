@@ -269,7 +269,7 @@ class ACTSolicitudEfectivo extends ACTbase{
 
 		$reporte->setDataSource($dataSource);
 
-		$reporte->write();
+		$reporte->write1();
 
 			if(!$create_file){
 						$mensajeExito = new Mensaje();
@@ -358,7 +358,7 @@ class ACTSolicitudEfectivo extends ACTbase{
 
 		$reporte->setDataSource($dataSource);
 
-		$reporte->write();
+		$reporte->write1();
 
 			if(!$create_file){
 						$mensajeExito = new Mensaje();
@@ -458,7 +458,7 @@ class ACTSolicitudEfectivo extends ACTbase{
 
 		$reporte->setDataSource($dataSource);
 
-		$reporte->write();
+		$reporte->write1();
 
 			if(!$create_file){
 						$mensajeExito = new Mensaje();

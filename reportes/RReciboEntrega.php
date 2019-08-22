@@ -46,7 +46,7 @@ Class RReciboEntrega extends Report {
 	function __construct(CTParametro $objParam) {
 		$this->objParam = $objParam;
 	}
-    function write() {
+    function write1() {
     	
         $this->pdf = new CustomReporte($this->objParam);
         $this->pdf->setDataSource($this->getDataSource());

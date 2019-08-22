@@ -74,7 +74,7 @@ Phx.vista.PlanPagoVbConta = {
        
        this.iniciarEventos();
        this.addButton('SolDevPag',{text:'Solicitar Devengado/Pago', iconCls: 'bpagar',disabled: true, handler: this.onBtnDevPag,tooltip: '<b>Solicitar Devengado/Pago</b><br/>Genera en cotabilidad el comprobante Correspondiente, devengado o pago  '});
-       this.addButton('ModAprop',{text:'Modificar Apropiación', iconCls: 'bengine',disabled: true, handler: this.onBtnApropiacion,tooltip: 'Modificar la apropiación (solo cuando es el primer pago de un pago directo y el estado es vbconta)'});
+       //this.addButton('ModAprop',{text:'Modificar Apropiación', iconCls: 'bengine',disabled: true, handler: this.onBtnApropiacion,tooltip: 'Modificar la apropiación (solo cuando es el primer pago de un pago directo y el estado es vbconta)'});
        this.addButton('diagrama_gantt',{text:'Gantt', iconCls: 'bgantt', disabled: true, handler: diagramGantt, tooltip: '<b>Diagrama Gantt de proceso macro</b>'});
   
        function diagramGantt(){            

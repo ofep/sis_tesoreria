@@ -69,7 +69,7 @@ Class RRendicionEfectivo extends Report {
 	function __construct(CTParametro $objParam) {
 		$this->objParam = $objParam;
 	}
-    function write() {
+    function write1() {
     	
         $pdf = new CustomReporterer($this->objParam);
         $pdf->setDataSource($this->getDataSource());
