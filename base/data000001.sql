@@ -11,11 +11,11 @@ Para  definir la la metadata, menus, roles, etc
 
 1) sincronize ls funciones y procedimientos del sistema
 2)  verifique que la primera linea de los datos sea la insercion del sistema correspondiente
-3)  exporte los datos a archivo SQL (desde la interface de sistema en sis_seguridad), 
+3)  exporte los datos a archivo SQL (desde la interface de sistema en sis_seguridad),
     verifique que la codificacion  se mantenga en UTF8 para no distorcionar los caracteres especiales
-4)  remplaze los sectores correspondientes en este archivo en su totalidad:  (el orden es importante)  
-                             menu, 
-                             funciones, 
+4)  remplaze los sectores correspondientes en este archivo en su totalidad:  (el orden es importante)
+                             menu,
+                             funciones,
                              procedimietnos
 */
 
@@ -101,7 +101,7 @@ SELECT * FROM param.f_inserta_documento('TES', 'SPG', 'Solicitud de Pago', 'peri
 /********************************************I-DAT-GSS-TES-14-12/04/2013**********************************************/
 
 ----------------------------------
---COPY LINES TO data.sql FILE  
+--COPY LINES TO data.sql FILE
 ---------------------------------
 
 select wf.f_insert_tproceso_macro ('TES-PD', 'Pago Directo', 'si', 'activo', 'Sistema de Tesoreria');
@@ -254,7 +254,7 @@ SELECT * FROM param.f_inserta_documento('TES', 'REN', 'Rendicion', 'gestion', NU
 /* Data for the 'pxp.variable_global' table  (Records 1 - 1) */
 
 INSERT INTO pxp.variable_global ("variable", "valor", "descripcion")
-VALUES 
+VALUES
   (E'pre_verificar_categoria', E'no', E'verificar presupuestaria por categoria, (por defecto no, es verificacion solo presupeusto)');
 
 
@@ -264,7 +264,7 @@ VALUES
 /***********************************I-DAT-GSS-TES-0-22/06/2016*****************************************/
 
 ----------------------------------
---COPY LINES TO SUBSYSTEM data.sql FILE  
+--COPY LINES TO SUBSYSTEM data.sql FILE
 ---------------------------------
 
 select wf.f_import_tproceso_macro ('insert','TES-CAJA', 'TES', 'Caja','si');
@@ -301,8 +301,8 @@ select wf.f_import_ttipo_estado ('delete','pendiente_repo','RENR',NULL,NULL,NULL
 							NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 select wf.f_import_ttipo_estado ('delete','contabilizado','RENR',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
 							NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-							
-						
+
+
 select wf.f_import_testructura_estado ('delete','borrador','solicitado','CRE',NULL,NULL);
 select wf.f_import_testructura_estado ('delete','borrador','revision','RENP',NULL,NULL);
 select wf.f_import_testructura_estado ('delete','revision','rendido','RENP',NULL,NULL);
@@ -323,7 +323,7 @@ select wf.f_import_testructura_estado ('delete','pendiente_repo','contabilizado'
 
 
 ----------------------------------
---COPY LINES TO SUBSYSTEM data.sql FILE  
+--COPY LINES TO SUBSYSTEM data.sql FILE
 ---------------------------------
 
 select wf.f_import_tproceso_macro ('insert','TES-REND', 'TES', 'Proceso Caja','si');
@@ -377,7 +377,7 @@ select wf.f_import_testructura_estado ('insert','borrador','vbpresup','REN',1,''
 select wf.f_import_testructura_estado ('insert','vbpresup','supconta','REN',1,'');
 
 ----------------------------------
---COPY LINES TO SUBSYSTEM data.sql FILE  
+--COPY LINES TO SUBSYSTEM data.sql FILE
 ---------------------------------
 
 select wf.f_import_tproceso_macro ('insert','FR', 'TES', 'Fondo Rotativo','si');
@@ -466,29 +466,29 @@ select param.f_import_tdocumento ('insert','SOLEFE','Solicitud Efectivo','TES','
 /***********************************I-DAT-RAC-TES-0-20/02/2017*****************************************/
 
 INSERT INTO pxp.variable_global ("variable", "valor", "descripcion")
-VALUES 
+VALUES
   (E'tes_integrar_lb_pagado', E'no', E'por defecto no, al validar un pago inserta un cheque, si o no');
- 
-  
+
+
  /***********************************F-DAT-RAC-TES-0-20/02/2017*****************************************/
-  
+
 
 
 /***********************************I-DAT-RAC-TES-0-17/08/2017*****************************************/
-  
+
 INSERT INTO pxp.variable_global ("variable", "valor", "descripcion")
-VALUES 
+VALUES
   (E'tes_gen_cheque_depto_conta_lb_pri_cero', E'no', E'si o no, generar cheque cuando libro de bancos y ldepto de conta tengan prioridad cero');
-  
+
 
 /***********************************F-DAT-RAC-TES-0-17/08/2017*****************************************/
-  
+
 
 
 /***********************************I-DAT-RAC-TES-31-07/11/2017*****************************************/
-  
 
-INSERT INTO pxp.variable_global ("variable", "valor", "descripcion")VALUES 
+
+INSERT INTO pxp.variable_global ("variable", "valor", "descripcion")VALUES
   (E'tes_anticipo_ejecuta_pres', E'no', E'si o no, anticipos ejecutan presupeusto, mismo sin ejecucion contable');
 
 
@@ -510,5 +510,65 @@ select pxp.f_insert_tgui ('Consulta OP por plan de pagos', 'Consulta OP  por pla
 /***********************************F-DAT-JJA-TES-0-05/12/2018*****************************************/
 
 
+/***********************************I-DAT-RCM-TES-0-26/09/2019*****************************************/
+--- proceso_macro
+insert into wf.tproceso_macro (id_usuario_reg,estado_reg,id_proceso_macro,id_subsistema,codigo,nombre,inicio,modificado,grupo_doc) values (1,'activo',	35,9,'LIB-BAN','Libro Bancos','si',null,'"[{name:""proceso"",title:""<H1 align=center><i class=\""fa fa-thumbs-o-down\""></i> del Proceso</h1>"",grupo:0,height:0}, {name:""legales"",title:""<H1 align=center><i class=\""fa fa-eye\""></i> Legales</h1>"",grupo:1,height:0}]"');
 
+--- tipo_proceso
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,72,35,'Cheque - Transferencia - Debito','tes.tts_libro_bancos','id_libro_bancos','LBCHQ','si','obligatorio','cheque',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,73,35,'Deposito','tes.tts_libro_bancos','id_libro_bancos','LBDEP','no','obligatorio','deposito',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,74,35,'Debito Automatico','tes.tts_libro_bancos','id_libro_bancos','LBDEBT','no','obligatorio','debito_automatico',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,75,35,'Transferencia con carta','tes.tts_libro_bancos','id_libro_bancos','LBTRANS','no','obligatorio','transferencia_carta',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,76,35,'Transferencia al exterior','','','LIBTRAEX','','','transferencia_exterior',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,77,35,'Transferencia interna','tes.tts_libro_bancos','id_libro_bancos','LIBTRAIN','no','obligatorio','transferencia_intern',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,78,35,'Transferencia interna debe','tes.tts_libro_bancos','id_libro_bancos','LBTRINDB','no','obligatorio','transf_interna_debe',1);
+insert into wf.ttipo_proceso (id_usuario_reg,id_tipo_proceso,id_proceso_macro, nombre,tabla,columna_llave,codigo,inicio, tipo_disparo,codigo_llave, modificado) values (1,79,35,'Transferencia interna haber','tes.tts_libro_bancos','id_libro_bancos','LBTRINHB','no','obligatorio','transf_interna_haber',1);
 
+--- tipo_estado
+
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion, alerta,pedir_obs,plantilla_mensaje, funcion_inicial,funcion_regreso)values(1,485,72,'pendiente','Pendiente', 'no','no','no','ninguno', 'ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>', null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,498,76,'pagado','Pagado','no','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,499,76,'debitado','Debitado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,500,77,'transferido','Transferido','si','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,501,78,'transferido','Transferido','si','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,496,75,'cobrado','Cobrado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,484,72,'borrador','Borrador','si','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>','tes.f_fun_aprueba_pago_wf','tes.f_fun_rechaza_pago_wf');
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,486,72,'impreso','Impreso','no','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,487,72,'entregado','Entregado','no','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,488,72,'cobrado','Cobrado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,489,72,'anulado','Anulado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,490,72,'reingresado','Reingresado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,491,73,'borrador','Borrador','si','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,492,73,'depositado','Depositado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,493,74,'borrador','Borrador','si','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,494,74,'cobrado','Cobrado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,495,75,'borrador','Borrador','si','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,497,76,'borrador','Borrador','si','no','no','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,502,79,'transferido','Transferido','si','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,503,72,'vbpagosindocumento','visto bueno finanzas pago sin documento','no','no','no','listado','ninguno','si','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,504,72,'depositado','Depositado','no','no','si','ninguno','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+insert into wf.ttipo_estado (id_usuario_reg,id_tipo_estado,id_tipo_proceso, codigo, nombre_Estado, inicio, disparador,fin , tipo_asignacion, depto_asignacion,alerta,pedir_obs,plantilla_mensaje,funcion_inicial,funcion_regreso)values(1,505,72,'sigep_swift','Sigep Swift','no','no','no','listado','ninguno','no','no','<font color="99CC00" size="5"><font size="4">{TIPO_PROCESO}</font></font><br><br><b>&nbsp;</b>Tramite:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; <b>{NUM_TRAMITE}</b><br><b>&nbsp;</b>Usuario :<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {USUARIO_PREVIO} </b>en estado<b>&nbsp; {ESTADO_ANTERIOR}<br></b>&nbsp;<b>Responsable:&nbsp;&nbsp; &nbsp;&nbsp; </b><b>{FUNCIONARIO_PREVIO}&nbsp; {DEPTO_PREVIO}<br>&nbsp;</b>Estado Actual<b>: &nbsp; &nbsp;&nbsp; {ESTADO_ACTUAL}</b><br><br><br>&nbsp;{OBS} <br>',null,null);
+
+---estructura_estado
+
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,500,497,498,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,507,505,488,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,489,486,489,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,490,486,490,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,491,486,487,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,492,487,488,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,493,487,489,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,494,487,490,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,495,491,492,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,496,493,494,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,497,495,496,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,499,486,488,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,501,498,499,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,503,503,484,1,null,1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,504,484,504,1,'"{$tabla.tipo}"="deposito"',1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,505,484,488,1,'"{$tabla.tipo}" in ("transferencia_carta","debito_automatico")',1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,506,484,505,1,'"{$tabla.tipo}" in ("transferencia_carta")',1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,498,484,486,1,'"{$tabla.tipo}"="cheque"',1,'no');
+insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,502,484,503,1,'"{$tabla.tipo}"="cheque"',0,'no');
+
+/***********************************F-DAT-RCM-TES-0-26/09/2019*****************************************/
