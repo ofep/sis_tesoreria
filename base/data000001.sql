@@ -572,3 +572,186 @@ insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_e
 insert into wf.testructura_estado (id_usuario_reg,id_estructura_estado,id_tipo_estado_padre,id_tipo_estado_hijo,prioridad, regla, modificado, bucle) values (1,502,484,503,1,'"{$tabla.tipo}"="cheque"',0,'no');
 
 /***********************************F-DAT-RCM-TES-0-26/09/2019*****************************************/
+
+/***********************************I-DAT-RCM-TES-0-09/10/2019*****************************************/
+----------------------------------
+--COPY LINES TO SUBSYSTEM data.sql FILE
+---------------------------------
+
+select wf.f_import_tproceso_macro ('insert','PU', 'TES', 'Obligacion de Pago Único','si');
+select wf.f_import_tcategoria_documento ('insert','legales', 'Legales');
+select wf.f_import_tcategoria_documento ('insert','proceso', 'Proceso');
+select wf.f_import_ttipo_proceso ('insert','OPU',NULL,NULL,'PU','Solicitud de Pago Unico','tes.vobligacion_pago','id_obligacion_pago','si','','obligatorio','','obligacion_pago',NULL);
+select wf.f_import_ttipo_proceso ('insert','PUPLAP','en_pago','OPU','PU','Flujo Plan de Pago Unico (Devengado)','tes.vcomp_devtesprov_plan_pago_2','id_plan_pago','no','','null','','PUPLAP',NULL);
+select wf.f_import_ttipo_proceso ('insert','PUPLPP',NULL,NULL,'PU','Flujo Plan de Pago Unico (Pagado)','tes.vcomp_devtesprov_plan_pago_2','id_plan_pago','','','null','','PUPLPP',NULL);
+select wf.f_import_ttipo_proceso ('insert','PU_ANT_PAR',NULL,NULL,'PU','Pagos Especiales Único (Antic., Devol. Garantia)','tes.vcomp_devtesprov_plan_pago_2','id_plan_pago','no','','opcional','','ANT_PAR',NULL);
+select wf.f_import_ttipo_proceso ('insert','PU_AP_ANT','en_pago','OPU','PU','Aplicacion de Anticipo Único','tes.vcomp_devtesprov_plan_pago_2','id_plan_pago','no','','opcional','LA aplicaciond e anticipo se aplica solo sobre anticipo totales, es para ejecutar presupesuto y llevar al gasto el anticipo entregado','AP_ANT',NULL);
+select wf.f_import_ttabla ('insert','PP','PUPLAP','plan_pago','','','maestro','',NULL,'3','DESC','','','b','',NULL,'','');
+select wf.f_import_ttipo_estado ('insert','borrador','OPU','Borrador','si','no','no','ninguno','','depto_func_list','adq.f_lista_depto_tesoreria_wf_sel','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+select wf.f_import_ttipo_estado ('insert','en_pago','OPU','En pago','no','si','no','anterior','','anterior','',NULL,'no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"',NULL,'no',NULL,NULL,NULL,NULL,'notificacion',NULL,'{}',NULL);
+select wf.f_import_ttipo_estado ('insert','registrado','OPU','Certificado','no','si','no','funcion_listado','tes.f_lista_funcionario_registro_op','ninguno','','','si','no',NULL,'El proceso fue aprobado en el área de presupuestos, puede continuar con el registro del plan de pago y dar la conformidad para el pago cuando este listo','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+select wf.f_import_ttipo_estado ('insert','finalizado','OPU','Finalizado','no','si','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','anulado','OPU', 'Anulado','no','no','si','anterior','','anterior','',NULL,'no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"',NULL,'no',NULL,NULL,NULL,NULL,'notificacion',NULL,'{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','borrador','PUPLAP','Borrador', 'si','no','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','tes.f_fun_regreso_plan_pago_wf','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','pendiente','PUPLAP','Pendiente','no','si','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','devengado','PUPLAP','Devengado','no','si','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','anulado','PUPLAP','Anulado','no','no','si','anterior','','anterior','',NULL,'no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"',NULL,'no',NULL,NULL,NULL,NULL,'notificacion',NULL,'{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','borrador','PUPLPP','Borrador','si','no','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','tes.f_fun_regreso_plan_pago_wf','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','pendiente','PUPLPP','Pendiente','no','si','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','pagado','PUPLPP','Contabilizado','no','si','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','anulado','PUPLPP','Anulado','no','no','si','anterior','','anterior','',NULL,'no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"',NULL,'no',NULL,NULL,NULL,NULL,'notificacion',NULL,'{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbconta','PUPLAP','VoBo Contabilidad','no','no','no','segun_depto','','depto_func_list','tes.f_lista_depto_conta_x_lb_wf_sel','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','auxiliar,responsable','no','tes.f_fun_inicio_plan_pago_wf','','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Vinsto Bueno Contabilidad','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbconta','PUPLPP','VoBo Contabilidad','no','no','no','segun_depto','','depto_func_list','tes.f_lista_depto_conta_x_lb_wf_sel','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','responsable,auxiliar','no','tes.f_fun_inicio_plan_pago_wf','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbfin','PUPLAP','VoBo Dpto. Finanzas','no','no','no','listado','','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','si','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Vinsto Bueno Finanzas','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','borrador','PU_ANT_PAR','Borrador','si','no','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','tes.f_fun_regreso_plan_pago_wf',NULL,NULL,'notificacion',NULL,'{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','pendiente','PU_ANT_PAR','Pendiente','no','si','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbconta','PU_ANT_PAR','VoBo Contabilidad','no','no','no','segun_depto','','depto_func_list','tes.f_lista_depto_conta_x_lb_wf_sel','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','responsable,auxiliar','no','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno Contabilidad','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbfin','PU_ANT_PAR','VoBo Dpto. Finanzas','no','no','no','listado','','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno Finanzas','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','anulado','PU_ANT_PAR','Anulado','no','no','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','anticipado','PU_ANT_PAR','Anticipado','no','si','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','devuelto','PU_ANT_PAR','Devuelto','no','no','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','borrador','PU_AP_ANT','Borrador','si','no','no','ninguno','','ninguno','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','tes.f_fun_regreso_plan_pago_wf','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbconta','PU_AP_ANT','VoBo Contabilidad','no','no','no','segun_depto','','depto_func_list','tes.f_lista_depto_conta_x_lb_wf_sel','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','responsable,auxiliar','no','tes.f_fun_inicio_plan_pago_wf','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','pendiente','PU_AP_ANT','Pendiente','no','si','no','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','aplicado','PU_AP_ANT','Aplicado','no','no','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','anulado','PU_AP_ANT','Anulado','no','no','si','anterior','','anterior','','','no','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','notificacion','','{}',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbsolicitante','PUPLAP','VoBo Solicitante','no','no','no','funcion_listado','ADQ_SOL_COMPRA','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno solicitante','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbsolicitante','PU_ANT_PAR','VoBo Solicitante','no','no','no','funcion_listado','ADQ_SOL_COMPRA','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno solicitante','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbgerente','PUPLAP','VoBo Gerente','no','no','no','funcion_listado','tes.f_lista_funcionario_gerente_op_wf_sel','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','si','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno gerente','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbpresupuestos','OPU','VoBo Presupuestos','no','no','no','listado','','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','','','','borrador');
+
+select wf.f_import_ttipo_estado ('insert','supconta','PUPLAP','Sup Contabilidad','no','no','no','listado','','depto_func_list','tes.f_lista_depto_conta_x_lb_wf_sel','','no','si',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','responsable','no','tes.f_fun_inicio_plan_pago_wf','','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Vinsto Bueno Contabilidad','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbgerente','PU_ANT_PAR','VoBo Gerente','no','no','no','funcion_listado','tes.f_lista_funcionario_gerente_op_wf_sel','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','si','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno gerente','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbpoa','OPU','VoBo POA','no','no','no','listado','','ninguno','','','si','si',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','','','','borrador');
+
+select wf.f_import_ttipo_estado ('insert','vbdeposito','PUPLAP','VoBo Gerente (Deposito)','no','no','no','funcion_listado','tes.f_lista_funcionario_gerente_op_wf_sel','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Visto bueno gerente (Deposito)','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','suppresu','OPU','Supervisor Presupuestos','no','no','no','listado','','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','','','','borrador');
+
+select wf.f_import_ttipo_estado ('insert','supcostos','PUPLAP','Sup Costos','no','no','no','listado','','ninguno','','','si','si',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','si','tes.f_fun_inicio_plan_pago_wf','tes.f_fun_regreso_plan_pago_wf','../../../sis_tesoreria/vista/plan_pago/PlanPagoVb.php','PlanPagoVb','notificacion','Supervicion Costos','plapa.id_proceso_wf',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vbcostos','PUPLAP','VoBo Costos','no','no','no','listado','','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','no','','','','','','','',NULL);
+
+select wf.f_import_ttipo_estado ('insert','pago_exterior','PUPLAP','Pagado en el Exterior','no','no','si','ninguno','','ninguno','','','no','no',NULL,'','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vb_jefe_aeropuerto','OPU','VoBo Jefe de Aeropuerto','no','no','no','listado','','ninguno','','','si','si',NULL,'','Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
+
+select wf.f_import_ttipo_estado ('insert','vb_jefe_trafico','PUPLAP','VoBo Jefe de Trafico','no','no','no','listado','','ninguno','','','si','no',NULL,'','Nuevo tramite {NUM_TRAMITE} en estado "{ESTADO_ACTUAL}"','','si','','','','','','','',NULL);
+
+select wf.f_import_ttipo_estado ('insert','liberacion','OPU','Liberación','no','no','no','listado','orga.f_lista_responsable','ninguno','','tes.f_lista_funcionario_aprobador','si','si',NULL,
+'',
+'Aviso WF ,  {PROCESO_MACRO}  ({NUM_TRAMITE})','','no','','','','','','','',NULL);
+
+
+
+
+
+select wf.f_import_ttipo_columna ('insert','id_depto_lb','PP','PUPLAP','integer','','','','','','','','NumberField','Libro de Bancos','no','','',NULL,NULL);
+select wf.f_import_ttipo_documento ('insert','DocRespaldo','PUPLAP','Prefactura','Documento de respaldo para inicio de pago ','','escaneado',0.00,NULL);
+select wf.f_import_ttipo_documento ('insert','ACTCONF','PUPLAP','Acta de Conformidad / Recepcion ERP','Acta de conformidad de entrega de bienes o servicios','sis_tesoreria/control/PlanPago/reporteActaConformidad','generado',0.00,'{}');
+select wf.f_import_ttipo_documento ('insert','OTRDOC','PUPLAP','Otros Documentos','Otros documentos a ser presentados','','escaneado',0.00,NULL);
+select wf.f_import_ttipo_documento ('insert','DOCRES','PU_AP_ANT','Documento de respaldo de la aplicacion','Documento de respaldo de la aplicación','','escaneado',0.00,NULL);
+select wf.f_import_ttipo_documento ('insert','DOCRES','OPU','Documento de Respaldo','Documentos de respaldo para el pago','','escaneado',99.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','FACTURA','OPU','Factura / Invoice / Recibo','Factura / Invoice / Recibo','','escaneado',0.50,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','INFORME','OPU','Informe','Informe','','escaneado',99.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','NOTINT','OPU','Nota Interna','Nota Interna','','escaneado',99.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','OTRO','OPU','Otros Documentos','Otros Documentos','','escaneado',99.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','CORELE','OPU','Correo Electronico','Correo Electronico','','escaneado',99.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','DAPROPAG','OPU','Datos Bancarios del Beneficiario','Datos Bancarios del Beneficiario','','escaneado',99.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','PIR','OPU','PIR - Parte de Irregularidad Recibida','PIR - Parte de Irregularidad Recibida','','escaneado',99.00,'{}');
+select wf.f_import_ttipo_documento ('insert','OTRO','PU_AP_ANT','Otros Documentos','Otros Documentos','','escaneado',2.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','OTRO','PU_ANT_PAR','Otros Documentos','Otros Documentos','','escaneado',1.00,'{proceso}');
+select wf.f_import_ttipo_documento ('insert','GARCON','OPU','Garantía de cumplimiento de contrato','Garantía de cumplimiento de contrato','','escaneado',1.00,'{}');
+select wf.f_import_ttipo_documento ('insert','CONMOD','OPU','Contrato modificatorio','Contrato modificatorio','','escaneado',2.00,'{}');
+select wf.f_import_ttipo_documento ('insert','ORDCAM','OPU','Orden de cambio','Orden de cambio','','escaneado',3.00,'{}');
+select wf.f_import_ttipo_documento ('insert','SERV','OPU','Servidumbre','Servidumbre','','escaneado',0.00,'{}');
+select wf.f_import_tcolumna_estado ('insert','id_depto_lb','PP','PUPLAP','vbfin','exigir','');
+select wf.f_import_testructura_estado ('insert','en_pago','finalizado','OPU',1,NULL);
+select wf.f_import_testructura_estado ('insert','vbconta','pendiente','PUPLAP',1,NULL);
+select wf.f_import_testructura_estado ('insert','pendiente','devengado','PUPLAP',1,NULL);
+select wf.f_import_testructura_estado ('insert','vbconta','pendiente','PUPLPP',1,NULL);
+select wf.f_import_testructura_estado ('insert','pendiente','pagado','PUPLPP',1,NULL);
+select wf.f_import_testructura_estado ('insert','borrador','vbconta','PUPLPP',1,NULL);
+select wf.f_import_testructura_estado ('insert','registrado','en_pago','OPU',1,NULL);
+select wf.f_import_testructura_estado ('insert','vbfin','vbconta','PU_ANT_PAR',1,'');
+select wf.f_import_testructura_estado ('insert','vbconta','pendiente','PU_ANT_PAR',1,'');
+select wf.f_import_testructura_estado ('insert','pendiente','anticipado','PU_ANT_PAR',1,'"{$tabla.tipo}"!="dev_garantia"');
+select wf.f_import_testructura_estado ('insert','pendiente','devuelto','PU_ANT_PAR',1,'"{$tabla.tipo}"="dev_garantia"');
+select wf.f_import_testructura_estado ('insert','borrador','vbconta','PU_AP_ANT',1,'');
+select wf.f_import_testructura_estado ('insert','vbconta','pendiente','PU_AP_ANT',1,'');
+select wf.f_import_testructura_estado ('insert','pendiente','aplicado','PU_AP_ANT',1,'');
+select wf.f_import_testructura_estado ('insert','vbsolicitante','vbfin','PUPLAP',1,'');
+select wf.f_import_testructura_estado ('insert','vbsolicitante','vbfin','PU_ANT_PAR',1,'');
+select wf.f_import_testructura_estado ('insert','vbgerente','vbfin','PUPLAP',1,'');
+select wf.f_import_testructura_estado ('insert','vbpresupuestos','registrado','OPU',1,'');
+select wf.f_import_testructura_estado ('insert','supconta','vbconta','PUPLAP',1,'');
+select wf.f_import_testructura_estado ('insert','vbfin','supconta','PUPLAP',1,'NOT! tes.f_regla_tiene_servicio_o_lib_banco_inter');
+select wf.f_import_testructura_estado ('insert','vbgerente','vbfin','PU_ANT_PAR',1,'');
+select wf.f_import_testructura_estado ('insert','vbdeposito','supconta','PUPLAP',1,'{$tabla.prioridad_lb} != 0');
+select wf.f_import_testructura_estado ('insert','vbdeposito','vbfin','PUPLAP',1,'{$tabla.prioridad_lb} = 0');
+select wf.f_import_testructura_estado ('insert','suppresu','vbpresupuestos','OPU',1,'');
+select wf.f_import_testructura_estado ('insert','vbpoa','suppresu','OPU',1,'');
+select wf.f_import_testructura_estado ('insert','vbfin','supcostos','PUPLAP',1,'tes.f_regla_tiene_servicio_o_lib_banco_inter');
+select wf.f_import_testructura_estado ('insert','supcostos','vbcostos','PUPLAP',1,'');
+select wf.f_import_testructura_estado ('insert','vbcostos','supconta','PUPLAP',1,'{$tabla.prioridad_lb} != 3');
+select wf.f_import_testructura_estado ('insert','vbcostos','pendiente','PUPLAP',1,'{$tabla.prioridad_lb} = 3');
+select wf.f_import_testructura_estado ('insert','vbcostos','pago_exterior','PUPLAP',1,'{$tabla.prioridad_lb} = 3');
+select wf.f_import_testructura_estado ('insert','vb_jefe_aeropuerto','vbpoa','OPU',1,'');
+select wf.f_import_testructura_estado ('insert','vb_jefe_trafico','vbfin','PUPLAP',1,'');
+select wf.f_import_testructura_estado ('insert','borrador','liberacion','OPU',1,'');
+select wf.f_import_testructura_estado ('insert','liberacion','registrado','OPU',1,'');
+select wf.f_import_testructura_estado ('insert','borrador','vbconta','PU_ANT_PAR',1,'');
+select wf.f_import_testructura_estado ('insert','borrador','vbconta','PUPLAP',1,'');
+select wf.f_import_tfuncionario_tipo_estado ('insert','supconta','PUPLAP',NULL,NULL,NULL);
+select wf.f_import_tfuncionario_tipo_estado ('insert','vbconta','PUPLAP',NULL,NULL,NULL);
+select wf.f_import_tfuncionario_tipo_estado ('insert','liberacion','OPU','3497416','TES','');
+select wf.f_import_tplantilla_correo ('insert','CORRFINPP','vbfin','PUPLAP','"{$tabla.tipo_obligacion}"="pago_directo" and "{$tabla.fecha_tentativa}">"05-09-2014"',' ','kbarrancos@boa.bo,cguzman@boa.bo',NULL);
+select wf.f_import_tplantilla_correo ('insert','VBFINANREGU','vbfin','PUPLAP','"{$tabla.fecha_tentativa}">"05-09-2014"','','htapia@boa.bo',NULL);
+select wf.f_import_tplantilla_correo ('insert','MAILVALIUSUOP','vbfin','PUPLAP','"{$tabla.desc_funcionario}"!="{$tabla.desc_usuario}" and "{$tabla.tipo_obligacion}"="pago_directo" and "{$tabla.fecha_tentativa}">"05-09-2014"','Señor {$tabla.desc_funcionario}:<br><br>El usuario <b>{$tabla.desc_usuario}</b>, realizó una solicitud de obligacion de pago directa con la siguiente información:<br><br>&nbsp; Proveedor :&nbsp; <b>{$tabla.desc_proveedor}</b><br>&nbsp;Monto :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>{$tabla.monto} {$tabla.codigo_moneda}</b><br><br>&nbsp;Detalle :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {$tabla.detalle}&nbsp;<br><br>{OBS}<br><br>Si requiere mayor información porfavor revise el sistema (módulo obligaciones de pago)<br><br>ERP BOA','{$tabla.email_empresa}',NULL);
+----------------------------------
+--COPY LINES TO SUBSYSTEM dependencies.sql FILE
+---------------------------------
+
+select wf.f_import_ttipo_documento_estado ('insert','FACTURA','OPU','borrador','OPU','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','FACTURA','OPU','vbconta','PUPLAP','hacer_exigible','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','FACTURA','OPU','pendiente','PUPLAP','verificar','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','OTRDOC','PUPLAP','borrador','PUPLAP','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','OTRO','PU_AP_ANT','borrador','PU_AP_ANT','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','OTRO','PU_ANT_PAR','borrador','PU_ANT_PAR','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','GARCON','OPU','borrador','OPU','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','CONMOD','OPU','borrador','OPU','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','ORDCAM','OPU','borrador','OPU','crear','superior','');
+select wf.f_import_ttipo_documento_estado ('insert','SERV','OPU','borrador','OPU','crear','superior','{$tabla.id_proveedor} != 37260');
+select wf.f_import_ttipo_proceso_origen ('insert','PU_AP_ANT','PU','TPLAP','pendiente','manual','');
+
+/***********************************F-DAT-RCM-TES-0-09/10/2019*****************************************/
